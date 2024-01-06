@@ -1,0 +1,161 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Book {
+    private int id;
+    private String title;
+    private String author;
+    private boolean isAvailable;
+
+    public Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isAvailable = true;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", available=" + isAvailable +
+                '}';
+    }
+}
+
+//user
+class User {
+    private int id;
+    private String name;
+
+    public User(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+//library
+class Library {
+    private List<Book> books;
+    private List<User> users;
+
+    public Library() {
+        this.books = new ArrayList<>();
+        this.users = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void displayBooks() {
+        System.out.println("Library Books:");
+        for (Book book : books) {
+            System.out.println(book);
+        }
+    }
+
+    public void displayUsers() {
+        System.out.println("Library Users:");
+        for (User user : users) {
+            System.out.println(user);
+        }
+    }
+
+    public boolean borrowBook(int bookId, int userId) {
+        for (Book book : books) {
+            if (book.getId() == bookId && book.isAvailable()) {
+                book.setAvailable(false);
+                System.out.println("Book borrowed successfully.");
+                return true;
+            }
+        }
+        System.out.println("Book not available for borrowing.");
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        // Adding books to the library
+        library.addBook(new Book(1, "The Great Gatsby", "F. Scott Fitzgerald"));
+        library.addBook(new Book(2, "To Kill a Mockingbird", "Harper Lee"));
+        library.addBook(new Book(3, "1984", "George Orwell"));
+
+        // Adding users to the library
+        library.addUser(new User(101, "Alice"));
+        library.addUser(new User(102, "Bob"));
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nLibrary Management System Menu:");
+            System.out.println("1. Display Books");
+            System.out.println("2. Display Users");
+            System.out.println("3. Borrow a Book");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    library.displayBooks();
+                    break;
+
+                case 2:
+                    library.displayUsers();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Book ID to borrow: ");
+                    int bookId = scanner.nextInt();
+                    System.out.print("Enter User ID: ");
+                    int userId = scanner.nextInt();
+                    library.borrowBook(bookId, userId);
+                    break;
+
+                case 4:
+                    System.out.println("Exiting the Library Management System. Goodbye!");
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
