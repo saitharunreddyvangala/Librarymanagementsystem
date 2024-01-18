@@ -1,1 +1,1 @@
-How to create a perfect $ suitable managable library management system
+How to create a perfect & suitable managable library management system
